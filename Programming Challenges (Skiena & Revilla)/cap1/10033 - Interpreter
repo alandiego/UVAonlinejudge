@@ -1,0 +1,94 @@
+#include <bits/stdc++.h> 
+#include <algorithm>
+#include <bitset>
+#include <cctype>
+#include <cmath>
+#include <cstdio>
+#include <cstring>
+#include <iostream>
+#include <map>
+#include <queue>
+#include <stack>
+#include <string>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int main(){
+    int qtd;
+    scanf("%d ",&qtd);
+    while(qtd--){
+        int reg[10] = {};
+        int mem[1005] = {};
+        char cmd[1005][5] = {};
+        int pc = 0, saida=0;
+        int c, d, u;
+        
+        //for (int i=0; i<10; i++) reg[i]=0;
+        //for (int i=0; i<1005; i++) mem[i]=0;
+        
+        while(fgets(cmd[pc], 5, stdin)) {
+            if(cmd[pc][0] == '\n' || cmd[pc][0] == '\0')
+                break;
+            mem[pc] = atoi(cmd[pc]);
+            pc++;
+        }
+        pc = 0;
+        while (true){
+            //extrai centena, dezena e unidade de mem
+            // trabalhar com cada digito de forma separada
+            c = mem[pc]/100;    //centena
+            d = mem[pc]%100/10; //dezena
+            u = mem[pc]%10;     //unidade
+     
+            pc++;
+            saida++;
+
+            if (c==1){
+                break;
+            }
+
+            switch(c) {
+                case 2:
+                    reg[d] = u;
+                    break;
+                case 3:
+                    reg[d] += u;
+                    reg[d] %= 1000;
+                    break;
+                case 4:
+                    reg[d] *= u;
+                    reg[d] %= 1000;
+                    break;
+                case 5:
+                    reg[d] = reg[u];
+                    break;
+                case 6:
+                    reg[d] += reg[u];
+                    reg[d] %= 1000;
+                    break;
+                case 7:
+                    reg[d] *= reg[u];
+                    reg[d] %= 1000;
+                    break;
+                case 8:
+                    reg[d] = mem[reg[u]];
+                    break;
+                case 9:
+                    mem[reg[u]] = reg[d]; // centena
+                    break;
+                case 0:
+                    if(reg[u] != 0)
+                        pc = reg[d];
+                    break;
+            }
+        }
+        
+        cout << saida << endl;
+        if (qtd) puts("");
+        
+    }
+    return 0;
+}
+
